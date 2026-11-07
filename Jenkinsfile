@@ -7,10 +7,12 @@ pipeline {
 
     environment {
         // Binds Jenkins Credentials securely to standard Azure Terraform environment variables
-        ARM_CLIENT_ID       = credentials('AZURE_CLIENT_ID')
-        ARM_CLIENT_SECRET   = credentials('AZURE_CLIENT_SECRET')
-        ARM_SUBSCRIPTION_ID = credentials('AZURE_SUBSCRIPTION_ID')
-        ARM_TENANT_ID       = credentials('AZURE_TENANT_ID')
+        withCredentials([azureServicePrincipal('azure-service-principal-creden')]) {
+            ARM_CLIENT_ID       = credentials('AZURE_CLIENT_ID')
+            ARM_CLIENT_SECRET   = credentials('AZURE_CLIENT_SECRET')
+            ARM_SUBSCRIPTION_ID = credentials('AZURE_SUBSCRIPTION_ID')
+            ARM_TENANT_ID       = credentials('AZURE_TENANT_ID')
+        }
     }
 
     stages {
